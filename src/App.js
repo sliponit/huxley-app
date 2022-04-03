@@ -111,6 +111,7 @@ function App() {
         </p>
       </header>
       <div className="App-body">
+        <iframe src="https://dune.xyz/embeds/553533/1038511/ea02e709-c6ea-4f09-9867-4333969eab38" width="800" height="400" title="chart 1"></iframe>
         {subHeaderComponentMemo}
         <DataTable
           columns={columns}
