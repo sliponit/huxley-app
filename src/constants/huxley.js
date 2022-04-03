@@ -1,0 +1,1 @@
+export const OPENSEA_URL = 'https://opensea.io/assets/0x9ca8887d13bc4591ae36972702fdf9de2c97957f/'
