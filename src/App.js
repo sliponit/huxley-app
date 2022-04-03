@@ -68,6 +68,7 @@ const columns = [
 function App() {
   const [events, setEvents] = useState([])
   const [pending, setPending] = useState(true)
+  const [stats, setStats] = useState(null)
   const [filterText, setFilterText] = useState('');
 	const [resetPaginationToggle, setResetPaginationToggle] = useState(false); //	paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
 	const filteredEvents = events.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()))
@@ -90,17 +91,18 @@ function App() {
 		);
 	}, [filterText, resetPaginationToggle]);
 
-  const fetchEvents = async () => {
+  const fetchData = async () => {
     const resp = await fetch(process.env.REACT_APP_WORKER_URL)
-    const allEvents = await resp.json()
-    setEvents(allEvents)
+    const { events, stats } = await resp.json()
+    setEvents(events)
+    setStats(stats)
     setPending(false)
   }
 
   const onRowClicked = ({ token_id }) => window.open(OPENSEA_URL + token_id)
 
   useEffect(() => {
-    fetchEvents();
+    fetchData();
   }, [])
 
   return (
@@ -111,6 +113,7 @@ function App() {
         </p>
       </header>
       <div className="App-body">
+        <div>{`${JSON.stringify(stats)}`}</div>
         <iframe src="https://dune.xyz/embeds/553533/1038511/ea02e709-c6ea-4f09-9867-4333969eab38" width="800" height="400" title="chart 1"></iframe>
         {subHeaderComponentMemo}
         <DataTable
