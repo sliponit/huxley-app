@@ -68,11 +68,23 @@ const columns = [
 function App() {
   const [events, setEvents] = useState([])
   const [pending, setPending] = useState(true)
-  const [stats, setStats] = useState(null)
+  const [stats, setStats] = useState({})
   const [filterText, setFilterText] = useState('');
 	const [resetPaginationToggle, setResetPaginationToggle] = useState(false); //	paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
 	const filteredEvents = events.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()))
   // || item.state.includes(filterText.toLowerCase())
+
+  const format = (key, value) => {
+    if (key.endsWith('_volume') || key.endsWith('_price') || key.endsWith('_cap')) {
+      return <span><img src="./assets/eth.svg" alt="ETH" className='Eth-img'/>{value.toFixed(2)}</span> 
+    } else if (key.endsWith('_change') && value > 0) {
+      return <span className="App-increase">{`+ ${parseInt(value * 100)}%`}</span>
+    } else if (key.endsWith('_change') && value < 0) {
+      return <span className="App-decrease">{`${parseInt(value * 100)}%`}</span>
+    } else {
+      return <span>{value}</span>
+    }
+  }
 
 	const subHeaderComponentMemo = useMemo(() => {
 		const handleClear = (e) => {
@@ -84,7 +96,7 @@ function App() {
 		};
 
 		return (
-      <div>
+      <div class="App-search">
 			  <input id="filter" type="text" value={filterText} onChange={e => setFilterText(e.target.value)} placeholder="Search" />
         <button onClick={handleClear}>X</button>
       </div>
@@ -113,8 +125,16 @@ function App() {
         </p>
       </header>
       <div className="App-body">
-        <div>{`${JSON.stringify(stats)}`}</div>
-        <iframe src="https://dune.xyz/embeds/553533/1038511/ea02e709-c6ea-4f09-9867-4333969eab38" width="800" height="400" title="chart 1"></iframe>
+        <div className="App-stats">
+          <table>
+            {Object.entries(stats).map(([key, value]) => 
+             <tr>
+                <td>{key}</td>
+                <td>{format(key, value)}</td>
+              </tr>
+            )}
+          </table>
+        </div>
         {subHeaderComponentMemo}
         <DataTable
           columns={columns}

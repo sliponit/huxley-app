@@ -23,8 +23,30 @@
   margin-top: 10px;
 }
 
+.App-search {
+  margin-top: 10px;
+}
+
+.App-stats {
+  width: 300px;
+  margin: auto;
+}
+
 .App-link {
   color: #61dafb;
+}
+
+.App-increase {
+  color: #097c05;
+}
+
+.App-decrease {
+  color: #fb6661;
+}
+
+.Eth-img {
+  max-height: 15px;
+  margin-right: 2px;
 }
 
 @keyframes App-logo-spin {
@@ -35,3 +57,16 @@
     transform: rotate(360deg);
   }
 }
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
